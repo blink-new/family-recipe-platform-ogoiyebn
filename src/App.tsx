@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Header } from '@/components/layout/Header'
 import { RecipeCard } from '@/components/recipe/RecipeCard'
 import { AddRecipeDialog } from '@/components/recipe/AddRecipeDialog'
+import { RecipeDetailDialog } from '@/components/recipe/RecipeDetailDialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -15,6 +16,8 @@ function App() {
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([])
   const [loadingRecipes, setLoadingRecipes] = useState(false)
   const [addRecipeOpen, setAddRecipeOpen] = useState(false)
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null)
+  const [recipeDetailOpen, setRecipeDetailOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedFilter, setSelectedFilter] = useState<string>('all')
 
@@ -109,8 +112,8 @@ function App() {
   }
 
   const handleRecipeClick = (recipe: Recipe) => {
-    // TODO: Open recipe detail modal/page
-    console.log('Recipe clicked:', recipe)
+    setSelectedRecipe(recipe)
+    setRecipeDetailOpen(true)
   }
 
   // Loading state
@@ -245,6 +248,13 @@ function App() {
         open={addRecipeOpen}
         onOpenChange={setAddRecipeOpen}
         onRecipeAdded={handleRecipeAdded}
+      />
+
+      {/* Recipe Detail Dialog */}
+      <RecipeDetailDialog
+        recipe={selectedRecipe}
+        open={recipeDetailOpen}
+        onOpenChange={setRecipeDetailOpen}
       />
     </div>
   )

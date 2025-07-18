@@ -2,23 +2,24 @@ export interface Recipe {
   id: string
   title: string
   description?: string
-  instructions?: string
-  ingredients?: string
+  instructions?: string[]
+  ingredients?: string[]
   prepTime?: number
   cookTime?: number
   servings?: number
   cuisineType?: string
   mealType?: string
-  tags?: string
+  tags?: string[]
   imageUrl?: string
   sourceUrl?: string
-  privacyLevel: 'public' | 'protected' | 'private'
+  privacy: 'public' | 'protected' | 'private'
+  privacyLevel: 'public' | 'protected' | 'private' // Keep for backward compatibility
   userId: string
   createdAt: string
   updatedAt: string
 }
 
-export interface RecipeRating {
+export interface Rating {
   id: string
   recipeId: string
   userId: string
@@ -26,13 +27,20 @@ export interface RecipeRating {
   createdAt: string
 }
 
-export interface RecipeComment {
+export interface Comment {
   id: string
   recipeId: string
   userId: string
-  comment: string
+  userEmail?: string
+  content: string
   parentId?: string
   createdAt: string
+}
+
+// Keep old interfaces for backward compatibility
+export type RecipeRating = Rating
+export interface RecipeComment extends Comment {
+  comment: string
 }
 
 export interface RecipeAccess {

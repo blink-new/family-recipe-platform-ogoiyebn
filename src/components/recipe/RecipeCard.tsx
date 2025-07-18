@@ -12,7 +12,8 @@ interface RecipeCardProps {
 
 export function RecipeCard({ recipe, averageRating = 0, totalRatings = 0, onClick }: RecipeCardProps) {
   const getPrivacyIcon = () => {
-    switch (recipe.privacyLevel) {
+    const privacy = recipe.privacy || recipe.privacyLevel
+    switch (privacy) {
       case 'public':
         return <Globe className="h-4 w-4 text-green-600" />
       case 'protected':
@@ -24,7 +25,11 @@ export function RecipeCard({ recipe, averageRating = 0, totalRatings = 0, onClic
     }
   }
 
-  const tags = recipe.tags ? recipe.tags.split(',').map(tag => tag.trim()) : []
+  const tags = Array.isArray(recipe.tags) 
+    ? recipe.tags 
+    : recipe.tags 
+    ? recipe.tags.split(',').map(tag => tag.trim()) 
+    : []
 
   return (
     <Card 
@@ -49,7 +54,7 @@ export function RecipeCard({ recipe, averageRating = 0, totalRatings = 0, onClic
         <div className="absolute top-2 right-2">
           <Badge variant="secondary" className="flex items-center space-x-1">
             {getPrivacyIcon()}
-            <span className="capitalize text-xs">{recipe.privacyLevel}</span>
+            <span className="capitalize text-xs">{recipe.privacy || recipe.privacyLevel}</span>
           </Badge>
         </div>
       </div>
